@@ -21,3 +21,28 @@ Bonus:
 
 """
 
+def add_emojis(message):
+    emoji_dict = {
+        "happy": "😊",
+        "love": "❤️",
+        "code": "💻",
+        "tea": "🍵"
+    }
+    
+    updated_words = []
+    
+    for word in message.split():
+      cleaned = word.lower().strip(".!?%,")
+      emoji = emoji_dict.get(cleaned,"")
+      if emoji:
+        updated_words.append(f"{word} {emoji} ")
+      else:
+        updated_words.append(f"{word} ")
+    
+    updated_message = "".join(updated_words)
+    return updated_message
+    
+
+message = input("Enter your message: ")
+print(add_emojis(message))
+
