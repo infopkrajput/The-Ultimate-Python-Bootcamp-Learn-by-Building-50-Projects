@@ -1,0 +1,33 @@
+import pandas as pd 
+from sklearn.pipeline import Pipeline
+from sklearn.linear_model import LogisticRegression
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.model_selection import train_test_split
+import streamlit as st
+
+@st.cache_resource
+def load_model():
+    df = pd.read_csv("comments.csv")
+
+    model = Pipeline([
+        ("tfidf", TfidfVectorizer()),
+        ("clf", LogisticRegression())
+    ])
+
+    model.fit(df["comment"], df["label"])
+    
+    return model
+
+model = load_model()
+
+st.title("Toxic Comment Classifier")
+your_input = st.text_input("Enter a comment")
+
+if your_input:
+    prediction = model.predict([your_input])[0]
+    if prediction == "toxic":
+        st.error("This comment is **toxic**.")
+    else:
+        st.success("This comment is **Supportive**.")
+    
+    
