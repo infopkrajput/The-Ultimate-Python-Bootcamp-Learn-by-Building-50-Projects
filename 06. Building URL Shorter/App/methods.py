@@ -38,3 +38,5 @@ def get_all_urls():
 def delete_url(short_code):
     with sqlite3.connect(DB_NAME) as conn:
         conn.execute('DELETE FROM urls WHERE short_code = ?', (short_code,))
+        conn.commit()
+        
